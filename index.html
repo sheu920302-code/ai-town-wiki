@@ -2,23 +2,42 @@
 <html lang="zh-Hant">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI 小鎮的人性實驗｜LLM Wiki</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&family=Noto+Sans+TC:wght@400;500&display=swap" rel="stylesheet">
 <style>
-body{margin:0;background:#132a22;font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;color:#1f2a37}
-main{max-width:760px;margin:40px auto;background:#f6f2e8;border-radius:14px;padding:32px 36px;border-top:8px solid #b0975e}
-h1{color:#132a22;margin:0 0 6px;font-size:28px}
-p{line-height:1.7}
-a.card{display:block;background:#fff;border-radius:10px;padding:14px 18px;margin:12px 0;text-decoration:none;color:#132a22;border-left:6px solid #1f3d32;font-weight:700}
-a.card span{display:block;font-weight:400;color:#6b7280;font-size:14px;margin-top:2px}
-.small{font-size:13px;color:#6b7280}
+:root{--green:#132a22;--ivory:#f5f1e6;--gold:#a88a4f;--gold-l:#cdb57e;--muted:#aebbb3;
+--serif:"Noto Serif TC","Noto Serif CJK TC","Source Han Serif TC","Songti TC","PMingLiU",serif;--sans:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%;background:var(--green);color:var(--ivory);font-family:var(--sans)}
+.frame{position:relative;max-width:980px;margin:6vh auto;padding:5.5rem 5rem 4rem;border:1px solid rgba(205,181,126,.55)}
+.frame::after{content:"";position:absolute;inset:8px;border:1px solid rgba(205,181,126,.22);pointer-events:none}
+.tag{display:inline-block;color:var(--gold-l);border:1px solid rgba(205,181,126,.6);padding:.3rem 1rem;font-size:.78rem;letter-spacing:.25em}
+h1{font-family:var(--serif);font-weight:700;font-size:clamp(2rem,4.6vw,3.2rem);line-height:1.4;letter-spacing:.05em;margin-top:2rem;color:#fbf6ea}
+.rule{width:4.5rem;height:2px;background:var(--gold-l);margin:1.6rem 0}
+.lead{color:#d6ddd8;line-height:1.95;max-width:40em;letter-spacing:.03em}
+nav{margin-top:3.2rem;border-top:1px solid rgba(205,181,126,.45)}
+nav a{display:grid;grid-template-columns:4.2rem 1fr auto;align-items:baseline;gap:1rem;padding:1.35rem .3rem;border-bottom:1px solid rgba(205,181,126,.28);text-decoration:none;color:inherit;transition:background .2s}
+nav a:hover{background:rgba(205,181,126,.07)}
+nav .no{font-family:var(--serif);color:var(--gold-l);font-size:1.15rem;letter-spacing:.1em}
+nav .t{font-family:var(--serif);font-weight:700;font-size:1.25rem;letter-spacing:.06em;color:#fbf6ea}
+nav .d{display:block;font-family:var(--sans);font-weight:400;font-size:.85rem;color:var(--muted);margin-top:.35rem;letter-spacing:.04em}
+nav .arr{color:var(--gold-l);font-size:1.1rem}
+footer{margin-top:3rem;font-size:.8rem;color:var(--muted);letter-spacing:.12em}
+@media(max-width:640px){.frame{margin:0;padding:3.5rem 1.6rem 3rem}nav a{grid-template-columns:3rem 1fr auto}}
 </style></head>
-<body><main>
-<h1>AI 小鎮的人性實驗</h1>
-<p>AI 會像人一樣信任、合作嗎？這個專案用「先討論、後生成」的方法，把 5 篇論文整理成一個 LLM Wiki，再從 wiki 生成教學簡報，作為期末「北大小鎮」的研究基礎。</p>
-<a class="card" href="slides/index.html">📽 教學簡報（14 頁）<span>用 ← → 或空白鍵翻頁</span></a>
-<a class="card" id="wiki" href="wiki/index.md">📚 LLM Wiki 首頁<span>論文、概念、範式、矛盾總表和小鎮設計，每句都標原文頁碼</span></a>
-<a class="card" href="slides/graph.html">🔁 Loop / Graph 設計圖<span>ingest 迴圈和簡報迴圈，以及各個檢查節點</span></a>
-<a class="card" id="report" href="slides/report.md">✅ 簡報檢查報告<span>哪些頁被退回、原因和修正</span></a>
-<p class="small">許安琪｜國立臺北大學 會計學系碩士班二年級｜生成式 AI 第十週作業。論文原文不公開，只放 wiki 筆記。</p>
-</main>
-<script>if(/github\.io$/.test(location.hostname)){document.getElementById('wiki').href='wiki/index.html';document.getElementById('report').href='slides/report.html';}</script>
+<body>
+<div class="frame">
+  <span class="tag">生成式 AI　第十週作業　·　LLM WIKI</span>
+  <h1>AI 小鎮的人性實驗</h1>
+  <div class="rule"></div>
+  <p class="lead">AI 會像人一樣信任、合作嗎？以「先討論、後生成」的方法，將 5 篇論文整理為一座 LLM Wiki，再由 wiki 生成教學簡報，作為期末「北大小鎮」的研究基礎。</p>
+  <nav>
+    <a href="slides/index.html"><span class="no">01</span><span><span class="t">教學簡報</span><span class="d">14 頁　·　以 ← → 或空白鍵翻頁</span></span><span class="arr">→</span></a>
+    <a id="wiki" href="wiki/index.md"><span class="no">02</span><span><span class="t">LLM Wiki</span><span class="d">論文、概念、範式、矛盾總表與小鎮設計　·　每句標註原文頁碼</span></span><span class="arr">→</span></a>
+    <a href="slides/graph.html"><span class="no">03</span><span><span class="t">Loop／Graph 設計圖</span><span class="d">ingest 迴圈與簡報迴圈，以及各個檢查節點</span></span><span class="arr">→</span></a>
+    <a id="report" href="slides/report.md"><span class="no">04</span><span><span class="t">簡報檢查報告</span><span class="d">退回重做的頁面、原因與修正</span></span><span class="arr">→</span></a>
+  </nav>
+  <footer>許安琪　｜　國立臺北大學　會計學系碩士班二年級　｜　論文原文不公開，僅收錄 wiki 筆記</footer>
+</div>
+<script>if(/github\.io$/.test(location.hostname)){document.getElementById('wiki').href='wiki/';document.getElementById('report').href='slides/report.html';}</script>
 </body></html>
