@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI 小鎮的人性實驗｜LLM Wiki</title>
+<style>
+body{margin:0;background:#132a22;font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;color:#1f2a37}
+main{max-width:760px;margin:40px auto;background:#f6f2e8;border-radius:14px;padding:32px 36px;border-top:8px solid #b0975e}
+h1{color:#132a22;margin:0 0 6px;font-size:28px}
+p{line-height:1.7}
+a.card{display:block;background:#fff;border-radius:10px;padding:14px 18px;margin:12px 0;text-decoration:none;color:#132a22;border-left:6px solid #1f3d32;font-weight:700}
+a.card span{display:block;font-weight:400;color:#6b7280;font-size:14px;margin-top:2px}
+.small{font-size:13px;color:#6b7280}
+</style></head>
+<body><main>
+<h1>AI 小鎮的人性實驗</h1>
+<p>AI 會像人一樣信任、合作嗎？這個專案用「先討論、後生成」的方法，把 5 篇論文整理成一個 LLM Wiki，再從 wiki 生成教學簡報，作為期末「北大小鎮」的研究基礎。</p>
+<a class="card" href="slides/index.html">📽 教學簡報（14 頁）<span>用 ← → 或空白鍵翻頁</span></a>
+<a class="card" id="wiki" href="wiki/index.md">📚 LLM Wiki 首頁<span>論文、概念、範式、矛盾總表和小鎮設計，每句都標原文頁碼</span></a>
+<a class="card" href="slides/graph.html">🔁 Loop / Graph 設計圖<span>ingest 迴圈和簡報迴圈，以及各個檢查節點</span></a>
+<a class="card" id="report" href="slides/report.md">✅ 簡報檢查報告<span>哪些頁被退回、原因和修正</span></a>
+<p class="small">許安琪｜國立臺北大學 會計學系碩士班二年級｜生成式 AI 第十週作業。論文原文不公開，只放 wiki 筆記。</p>
+</main>
+<script>if(/github\.io$/.test(location.hostname)){document.getElementById('wiki').href='wiki/index.html';document.getElementById('report').href='slides/report.html';}</script>
+</body></html>

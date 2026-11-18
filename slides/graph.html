@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI 小鎮 LLM Wiki：Loop / Graph 設計</title>
+<style>
+body{margin:0;background:#f6f2e8;font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;color:#1f2a37}
+main{max-width:1180px;margin:0 auto;padding:24px}
+h1{color:#132a22;font-size:24px;margin:0 0 4px}
+p{margin:4px 0 14px;color:#4b5563}
+svg{width:100%;height:auto;background:#fff;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.08)}
+.n{fill:#fff;stroke:#1f3d32;stroke-width:2}
+.u{fill:#f3ead3;stroke:#b0975e;stroke-width:2}
+.c{fill:#e7ece6;stroke:#132a22;stroke-width:2}
+.hot{fill:#f1e6d2;stroke:#7a4a22;stroke-width:3}
+text{font-size:13px;text-anchor:middle;dominant-baseline:middle}
+.t{font-size:17px;font-weight:700;fill:#132a22;text-anchor:start}
+.s{font-size:11px;fill:#6b7280}
+.e{stroke:#1f3d32;stroke-width:2;fill:none;marker-end:url(#a)}
+.b{stroke:#7a4a22;stroke-width:2;fill:none;stroke-dasharray:6 4;marker-end:url(#r)}
+.lb{font-size:12px;fill:#7a4a22}
+</style></head>
+<body><main>
+<h1>Loop / Graph 設計：先討論、後生成</h1>
+<p>上排：每篇論文的 ingest 迴圈（跑了 5 次）。下排：從 wiki 生成教學簡報的迴圈。<span style="color:#b0975e">■ 停下來問使用者</span>　<span style="color:#132a22">■ 檢查節點</span>　<span style="color:#7a4a22">■ 最常出錯的節點</span>　虛線＝不通過時退回。</p>
+<svg viewBox="0 0 1180 560" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1f3d32"/></marker>
+<marker id="r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#7a4a22"/></marker>
+</defs>
+<text class="t" x="20" y="28">A. Ingest 迴圈（每篇論文一次）</text>
+<rect class="n" x="20" y="60" width="110" height="54" rx="8"/><text x="75" y="80">raw/ PDF</text><text class="s" x="75" y="98">extract.py 抽文字</text>
+<rect class="n" x="160" y="60" width="110" height="54" rx="8"/><text x="215" y="80">讀全文</text><text class="s" x="215" y="98">記下頁碼</text>
+<rect class="u" x="300" y="60" width="120" height="54" rx="8"/><text x="360" y="80">提計畫・問使用者</text><text class="s" x="360" y="98">新頁、town、核心矛盾</text>
+<rect class="n" x="450" y="60" width="110" height="54" rx="8"/><text x="505" y="80">寫 wiki 頁面</text><text class="s" x="505" y="98">標頁碼・〔推論〕</text>
+<rect class="c" x="590" y="60" width="110" height="54" rx="8"/><text x="645" y="80">lint.py</text><text class="s" x="645" y="98">機器檢查・自動修</text>
+<rect class="hot" x="730" y="60" width="130" height="54" rx="8"/><text x="795" y="80">AI 審查</text><text class="s" x="795" y="98">全新子代理人對原文</text>
+<rect class="c" x="890" y="60" width="120" height="54" rx="8"/><text x="950" y="80">ERROR 覆核</text><text class="s" x="950" y="98">另一個全新子代理人</text>
+<rect class="u" x="1040" y="60" width="120" height="54" rx="8"/><text x="1100" y="80">log・使用者確認</text><text class="s" x="1100" y="98">git commit</text>
+<path class="e" d="M130 87H158"/><path class="e" d="M270 87H298"/><path class="e" d="M420 87H448"/><path class="e" d="M560 87H588"/><path class="e" d="M700 87H728"/><path class="e" d="M860 87H888"/><path class="e" d="M1010 87H1038"/>
+<path class="b" d="M645 114V150H505V116"/><text class="lb" x="575" y="162">ERROR → 改頁面</text>
+<path class="b" d="M795 114V190H505V116"/><text class="lb" x="650" y="202">ERROR／WARN → 修正</text>
+<path class="b" d="M950 114V230H505V116"/><text class="lb" x="760" y="242">覆核不過 → 再修</text>
+<path class="b" d="M1100 114V262H215V116"/><text class="lb" x="660" y="274">下一篇論文（共 5 篇）</text>
+
+<text class="t" x="20" y="320">B. 簡報迴圈（從 wiki 生成）</text>
+<rect class="n" x="20" y="350" width="110" height="54" rx="8"/><text x="75" y="370">wiki/</text><text class="s" x="75" y="388">index、各頁</text>
+<rect class="n" x="160" y="350" width="110" height="54" rx="8"/><text x="215" y="370">提大綱</text><text class="s" x="215" y="388">14 頁、對應 wiki</text>
+<rect class="u" x="300" y="350" width="120" height="54" rx="8"/><text x="360" y="370">使用者確認大綱</text><text class="s" x="360" y="388">頁數、風格、排除頁</text>
+<rect class="n" x="450" y="350" width="110" height="54" rx="8"/><text x="505" y="370">逐頁生成</text><text class="s" x="505" y="388">單一 HTML</text>
+<rect class="c" x="590" y="350" width="110" height="54" rx="8"/><text x="645" y="370">自我檢查</text><text class="s" x="645" y="388">頁數、連結、徽章</text>
+<rect class="hot" x="730" y="350" width="130" height="54" rx="8"/><text x="795" y="370">主張對 wiki</text><text class="s" x="795" y="388">全新子代理人逐頁</text>
+<rect class="n" x="890" y="350" width="120" height="54" rx="8"/><text x="950" y="370">report.md</text><text class="s" x="950" y="388">檢查紀錄</text>
+<rect class="u" x="1040" y="350" width="120" height="54" rx="8"/><text x="1100" y="370">使用者確認</text><text class="s" x="1100" y="388">commit → Pages</text>
+<path class="e" d="M130 377H158"/><path class="e" d="M270 377H298"/><path class="e" d="M420 377H448"/><path class="e" d="M560 377H588"/><path class="e" d="M700 377H728"/><path class="e" d="M860 377H888"/><path class="e" d="M1010 377H1038"/>
+<path class="b" d="M645 404V440H505V406"/><text class="lb" x="575" y="452">不通過 → 重做該頁</text>
+<path class="b" d="M795 404V480H505V406"/><text class="lb" x="650" y="492">FAIL 頁退回（最多 2 輪）</text>
+<path class="b" d="M645 404V520H75V406"/><text class="lb" x="360" y="532">發現 wiki 本身有錯 → 回頭修 wiki＋lint</text>
+</svg>
+</main></body></html>

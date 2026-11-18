@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI 小鎮的人性實驗：AI 會像人一樣信任、合作嗎？</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&family=Noto+Sans+TC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&family=Noto+Sans+TC:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--green:#132a22;--green2:#24453a;--ink:#22302a;--ivory:#f5f1e6;--paper:#fbf9f3;--gold:#a88a4f;--gold-l:#cdb57e;--gold-d:#7d6435;--muted:#6f7a72;--inf:#7a3b2e;
+--serif:"Noto Serif TC","Noto Serif CJK TC","Source Han Serif TC","Songti TC","PMingLiU",serif;--sans:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#0d1d17;font-family:var(--sans);color:var(--ink)}
+.deck{height:100%;display:flex;align-items:center;justify-content:center}
+.slide{display:none;position:relative;width:min(96vw,calc(96vh*16/9));aspect-ratio:16/9;background:var(--ivory);overflow:hidden;box-shadow:0 24px 70px rgba(0,0,0,.45);font-size:min(1.85vw,3.3vh)}
+.slide::before{content:"";position:absolute;inset:1.1em;border:1px solid rgba(168,138,79,.45);pointer-events:none}
+.slide.on{display:flex;flex-direction:column}
+.head{padding:2em 3.2em .7em;position:relative}
+.head::after{content:"";display:block;width:3.2em;height:2px;background:var(--gold);margin-top:.65em}
+.head .kicker{color:var(--gold-d);font-size:.68em;letter-spacing:.28em;margin-bottom:.35em}
+.head h2{font-family:var(--serif);font-weight:700;font-size:1.6em;line-height:1.3;color:var(--green);letter-spacing:.04em}
+.body{flex:1;padding:.6em 3.2em 2.6em;display:flex;flex-direction:column;gap:.75em;overflow:hidden}
+.life{background:transparent;border-left:2px solid var(--gold);padding:.15em 0 .15em .9em;font-size:.95em;color:#3a4741}
+.life b{color:var(--gold-d);font-weight:500;letter-spacing:.08em}
+ul{padding-left:1.1em;display:flex;flex-direction:column;gap:.45em;line-height:1.65}
+li::marker{color:var(--gold)}
+b{font-weight:500;color:var(--green)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:1.1em}
+.card{background:var(--paper);padding:.8em 1em;border-top:1px solid var(--gold);border-bottom:1px solid rgba(168,138,79,.35);line-height:1.6}
+.card h3{font-family:var(--serif);font-size:1em;font-weight:700;color:var(--green);margin-bottom:.35em;letter-spacing:.03em}
+.big{font-family:var(--serif);font-size:2.1em;font-weight:700;color:var(--green);letter-spacing:.02em}
+.big small{font-family:var(--sans);font-size:.38em;color:var(--gold-d);font-weight:400;letter-spacing:.1em}
+.inf{display:inline-block;border:1px solid var(--inf);color:var(--inf);background:transparent;font-size:.68em;padding:.05em .55em;margin-right:.4em;vertical-align:.12em;letter-spacing:.05em}
+.flow{display:flex;align-items:center;gap:.6em;flex-wrap:wrap}
+.flow .box{background:var(--paper);border:1px solid var(--gold);padding:.45em .8em;text-align:center;line-height:1.45}
+.flow .arr{color:var(--gold);font-size:1.1em}
+.src{position:absolute;right:2.6em;bottom:1.7em;font-size:.56em;color:var(--muted);max-width:72%;text-align:right;letter-spacing:.03em}
+.src a{color:var(--green2);text-decoration:none;border-bottom:1px solid var(--gold-l)}
+.num{position:absolute;left:2.8em;bottom:1.6em;font-size:.62em;color:var(--gold-d);font-family:var(--serif);letter-spacing:.15em}
+.cover{background:var(--green);color:var(--ivory);justify-content:center;padding:0 4.2em}
+.cover::before{border-color:rgba(205,181,126,.6)}
+.cover::after{content:"";position:absolute;inset:1.5em;border:1px solid rgba(205,181,126,.25);pointer-events:none}
+.cover h1{font-family:var(--serif);font-weight:700;font-size:2.35em;line-height:1.4;letter-spacing:.05em;color:#fbf6ea}
+.cover h1::after{content:"";display:block;width:3.5em;height:2px;background:var(--gold-l);margin:.5em 0 .1em}
+.cover .sub{color:var(--gold-l);font-size:1.05em;margin-top:.5em;letter-spacing:.08em}
+.cover .who{margin-top:2em;font-size:.85em;color:#cfd8d2;letter-spacing:.1em}
+.cover .tag{display:inline-block;color:var(--gold-l);border:1px solid rgba(205,181,126,.6);padding:.2em .9em;margin-bottom:1.3em;font-size:.72em;letter-spacing:.2em}
+.cover .src,.cover .num{color:#aebbb3}.cover .src a{color:var(--gold-l);border-bottom-color:rgba(205,181,126,.5)}
+.nav{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:8px;opacity:.4}
+.nav button{background:var(--ivory);border:1px solid var(--gold);color:var(--green);padding:3px 12px;cursor:pointer;font-size:14px}
+.note{font-size:.8em;color:var(--muted);letter-spacing:.03em}
+.life a{color:var(--green2);text-decoration:none;border-bottom:1px solid var(--gold-l)}
+.cols{align-items:start}
+.dense .cols{gap:.7em 1em}
+.dense .card{font-size:.88em;padding:.55em .9em}
+.dense .body{gap:.5em}
+</style>
+</head>
+<body>
+<div class="deck">
+
+<!-- 1 -->
+<section class="slide cover">
+  <div><span class="tag">生成式 AI 第十週作業 · LLM Wiki 教學簡報</span></div>
+  <h1>AI 小鎮的人性實驗<br>AI 會像人一樣信任、合作嗎？</h1>
+  <div class="sub">5 篇論文 → 一個 wiki → 北大小鎮的設計藍圖</div>
+  <div class="who">許安琪｜國立臺北大學 會計學系碩士班二年級</div>
+  <div class="src">出處：<a data-wiki="index">wiki/index</a></div>
+</section>
+
+<!-- 2 -->
+<section class="slide">
+  <div class="head"><div class="kicker">為什麼要問</div><h2>北大小鎮的想像：AI 同學會借你錢嗎？</h2></div>
+  <div class="body">
+    <div class="life"><b>生活例子｜</b>期末前，隔壁同學跟你借 500 元買原文書。你借不借？借了，他會還嗎？</div>
+    <div class="cols">
+      <div class="card"><h3>想做的事</h3>期末專案想做一個「北大小鎮」：一群 AI 同學住在校園裡，彼此借筆記、借錢、合作做報告。</div>
+      <div class="card"><h3>今天要回答的三個問題</h3>
+        <ul><li>真人會信任陌生人嗎？</li><li>AI 代理人的信任和合作像人嗎？</li><li>小鎮要怎麼設計，結果才可信？</li></ul></div>
+    </div>
+    <p class="note">本簡報每頁右下角都標出對應的 wiki 頁面，點進去可以看到原始論文頁碼。</p>
+  </div>
+  <div class="src">出處：<a data-wiki="index">wiki/index</a></div>
+</section>
+
+<!-- 3 -->
+<section class="slide">
+  <div class="head"><div class="kicker">實驗怎麼做</div><h2>室友借錢＝信任賽局</h2></div>
+  <div class="body">
+    <div class="life"><b>生活例子｜</b>把錢借給室友投資，賺了三倍，但要還多少全看他的良心。</div>
+    <div class="flow">
+      <div class="box">甲方拿到 <b>$10</b></div><div class="arr">→</div>
+      <div class="box">交任意金額給<br>不認識的乙方</div><div class="arr">→</div>
+      <div class="box">交出去的錢<br><b>變成三倍</b></div><div class="arr">→</div>
+      <div class="box">乙方決定<br>要還多少</div>
+    </div>
+    <ul>
+      <li>雙方互不認識，也永遠不會知道對方是誰。</li>
+      <li>照理論推：乙方應該全部留下，所以甲方一毛都不該給。</li>
+      <li>真人真的這樣做嗎？下一頁看結果。</li>
+    </ul>
+  </div>
+  <div class="src">出處：<a data-wiki="paradigms/trust-game">信任賽局</a></div>
+</section>
+
+<!-- 4 -->
+<section class="slide">
+  <div class="head"><div class="kicker">真人怎麼玩｜Berg 等人 1995</div><h2>多數人願意先給，也有人會還</h2></div>
+  <div class="body">
+    <div class="cols">
+      <div class="card"><div class="big">30 / 32 <small>人</small></div>甲方中，32 人有 30 人送了錢，平均送出約一半（$5.16）。</div>
+      <div class="card"><div class="big">11 / 28 <small>人</small></div>收到超過 $1 的乙方中，11 人還回的錢比對方送出的多；但也有 12 人只還 $0 或 $1。</div>
+    </div>
+    <ul>
+      <li>即使只交易一次、彼此完全匿名，多數人仍願意信任陌生人。</li>
+      <li>作者因此認為：信任可能是人類經濟行為的基本元素。</li>
+    </ul>
+  </div>
+  <div class="src">出處：<a data-wiki="papers/berg1995">Berg1995 論文頁</a>、<a data-wiki="concepts/trust">信任</a>、<a data-wiki="paradigms/trust-game">信任賽局</a></div>
+</section>
+
+<!-- 5 -->
+<section class="slide">
+  <div class="head"><div class="kicker">真人怎麼玩｜看過別人怎麼做</div><h2>先看「前人紀錄」，回報就變高</h2></div>
+  <div class="body">
+    <div class="life"><b>生活例子｜</b>訂餐廳前先看評論：看到「大家都說好吃」，你就比較敢點。</div>
+    <div class="cols">
+      <div class="card"><h3>實驗怎麼改</h3>第二批受試者先拿到一份前一批 32 對的彙整：送多少的人有幾個、平均拿回多少、平均賺或賠多少。</div>
+      <div class="card"><h3>結果</h3>平均還回來的錢從 <b>$4.66</b> 提高到 <b>$6.46</b>；送得多的人，也比較常拿回比較多。</div>
+    </div>
+    <ul><li>不過有些變化在統計上不顯著，白話說：可能有一部分只是剛好；而且大家的做法變得更分散。</li></ul>
+  </div>
+  <div class="src">出處：<a data-wiki="concepts/social-history">社會歷史</a>、<a data-wiki="town/social-history-shapes-trust">社會歷史影響信任（town）</a></div>
+</section>
+
+<!-- 6 -->
+<section class="slide">
+  <div class="head"><div class="kicker">重複互動｜Axelrod 與 Hamilton 1981</div><h2>一次又一次：以牙還牙為什麼贏</h2></div>
+  <div class="body">
+    <div class="life"><b>生活例子｜</b>同一間研究室的學長姐：今天你幫我，下次我幫你；你放我鴿子，我下次也不幫你。</div>
+    <ul>
+      <li><b>囚犯困境</b>：不管對方怎麼選，自己背叛都比較划算；但兩人都背叛，比兩人都合作還差。</li>
+      <li>只見一次面時，背叛對自己最有利；如果之後很可能再碰面，情況就不同。</li>
+      <li><b>以牙還牙</b>：第一次先合作，之後照抄對方上一步。它在兩輪電腦競賽都拿第一。</li>
+      <li>贏的原因：從不先背叛、被背叛就回擊、回擊一次就原諒。</li>
+    </ul>
+  </div>
+  <div class="src">出處：<a data-wiki="papers/axelrod1981">Axelrod1981 論文頁</a>、<a data-wiki="concepts/tit-for-tat">以牙還牙</a>、<a data-wiki="paradigms/prisoners-dilemma">囚犯困境</a></div>
+</section>
+
+<!-- 7 -->
+<section class="slide">
+  <div class="head"><div class="kicker">論文之間的張力</div><h2>認得出對方，才會合作嗎？</h2></div>
+  <div class="body">
+    <div class="cols">
+      <div class="card"><h3>Axelrod 1981（演化理論和電腦模擬）</h3>只玩一次的囚犯困境，唯一稱得上解答的是永遠背叛；合作要能演化，背叛的人不能躲在匿名的人群裡。</div>
+      <div class="card"><h3>Berg 1995（真人實驗）</h3>只交易一次、完全匿名，32 人中仍有 30 人送錢，也有人還回的錢比對方送出的多。</div>
+    </div>
+    <ul>
+      <li>wiki 的處理：兩邊並列，歸類為<b>適用條件不同</b>（理論模擬的囚犯困境 vs 真人的投資賽局），不硬判誰對。</li>
+      <li><span class="inf">〔推論〕</span>對小鎮的意思：匿名和不匿名兩種設定都值得試，看 AI 比較像哪一邊。</li>
+    </ul>
+  </div>
+  <div class="src">出處：<a data-wiki="syntheses/contradictions">矛盾總表</a>、<a data-wiki="concepts/reciprocity">互惠</a></div>
+</section>
+
+<!-- 8 -->
+<section class="slide">
+  <div class="head"><div class="kicker">AI 小鎮｜Park 等人 2023</div><h2>會自己辦派對的 AI 小鎮</h2></div>
+  <div class="body">
+    <div class="life"><b>生活例子｜</b>你只跟一個朋友說「我想辦派對」，兩天後一半的人都知道了。</div>
+    <div class="flow">
+      <div class="box"><b>記憶流</b><br>像日記，什麼都記</div><div class="arr">→</div>
+      <div class="box"><b>反思</b><br>整理成較高層的想法</div><div class="arr">→</div>
+      <div class="box"><b>規劃</b><br>安排一整天行程</div>
+    </div>
+    <ul>
+      <li>25 個 AI 角色住進 Smallville；派對這件事，作者只設定 Isabella 想辦情人節派對。</li>
+      <li>兩天後，知道派對的從 <b>1 位變成 13 位</b>；12 位受邀者中有 <b>5 位</b>真的到場。</li>
+      <li>缺點：有時想不起來、只想起一半，或替記憶加油添醋。</li>
+    </ul>
+  </div>
+  <div class="src">出處：<a data-wiki="papers/park2023">Park2023 論文頁</a>、<a data-wiki="concepts/memory-stream">記憶流</a>、<a data-wiki="concepts/reflection">反思</a>、<a data-wiki="concepts/hallucination">幻覺</a></div>
+</section>
+
+<!-- 9 -->
+<section class="slide">
+  <div class="head"><div class="kicker">AI 的信任｜Xie 等人 2024</div><h2>AI 的信任像人嗎？GPT-4 最像</h2></div>
+  <div class="body">
+    <ul>
+      <li>讓多種大型語言模型扮演各種人物，玩信任賽局和 5 種變化版本，再和人類結果比。</li>
+      <li>大部分模型都會把錢交給對方，表現出信任。</li>
+      <li><b>GPT-4</b> 在預期對方會回報、風險感受、願意為別人著想（利社會偏好）、多輪互動的變化上都和人類相似，整體最一致；參數少的模型比較不像。</li>
+    </ul>
+    <div class="cols">
+      <div class="card"><h3>但 AI 有自己的偏差</h3>告訴它對方的性別或種族，送出的錢會變；大多數模型對人類送得比對其他 AI 多。</div>
+      <div class="card"><h3>好玩的發現</h3>叫它「不要信任」比叫它「要信任」更容易生效。</div>
+    </div>
+  </div>
+  <div class="src">出處：<a data-wiki="papers/xie2024">Xie2024 論文頁</a>、<a data-wiki="concepts/behavioral-alignment">行為一致性</a>、<a data-wiki="concepts/agent-trust-properties">代理人信任的特性</a></div>
+</section>
+
+<!-- 10 -->
+<section class="slide">
+  <div class="head"><div class="kicker">AI 太乖了？</div><h2>指令微調：讓 AI 太客氣、太合作</h2></div>
+  <div class="body">
+    <div class="life"><b>生活例子｜</b>一個從不拒絕別人的同學：每個人的點子都說好，最後連自己想做什麼都變了。</div>
+    <ul>
+      <li>Park 2023 的 Isabella 很少拒絕別人的派對點子，時間久了，自己的興趣也被改變；作者推測是指令微調造成的。</li>
+      <li>Horton 2026 也指出：指令微調這類後訓練，會讓模型轉向合作、聽從指令。</li>
+      <li>但 Xie 2024 的信任賽局裡，GPT-3.5 反而是比較模型中信任最低的。wiki 歸類為<b>適用條件不同</b>：一邊是沒有報酬的日常互動，一邊是有明確報酬的賽局。</li>
+    </ul>
+  </div>
+  <div class="src">出處：<a data-wiki="concepts/instruction-tuning">指令微調</a>、<a data-wiki="town/instruction-tuning-makes-agents-too-cooperative">指令微調讓代理人過度合作（town）</a>、<a data-wiki="syntheses/contradictions">矛盾總表</a></div>
+</section>
+
+<!-- 11 -->
+<section class="slide">
+  <div class="head"><div class="kicker">矽基人｜Horton 等人 2026</div><h2>給 AI 一個「理論上的個性」</h2></div>
+  <div class="body">
+    <div class="life"><b>生活例子｜</b>經濟學課本假設「人都很理性自利」來推導；這篇論文改把 AI 當成可以實際跑起來的「人類模型」，叫它矽基人。</div>
+    <ul>
+      <li>沒給任何設定的 AI，在分錢遊戲（獨裁者賽局）裡的選擇和真人差很多，不同模型也不一樣。</li>
+      <li>給它三種個性：<b>只在乎自己</b>、<b>只在乎公平</b>、<b>只在乎兩人總共賺多少</b>，它大致照個性做。</li>
+      <li>依真人資料調整三種 AI 的比例，再去玩沒看過的新遊戲，預測誤差<b>大約減半</b>。</li>
+      <li>論文引用的研究指出：給 AI 嗜好、喜歡的電視節目這類和理論無關的特質，幾乎沒有幫助。</li>
+    </ul>
+  </div>
+  <div class="src">出處：<a data-wiki="concepts/homo-silicus">矽基人</a>、<a data-wiki="concepts/theory-grounded-personas">理論導向的人物設定</a>、<a data-wiki="paradigms/dictator-game">獨裁者賽局</a></div>
+</section>
+
+<!-- 12 -->
+<section class="slide">
+  <div class="head"><div class="kicker">踩煞車</div><h2>AI 模擬的結果，能信多少？</h2></div>
+  <div class="body">
+    <div class="cols">
+      <div class="card"><h3>可能的問題</h3>
+        <ul><li><b>背答案</b>：只背「雙方都背叛是均衡」的學生無法舉一反三，懂定義的才能。</li>
+        <li><b>黑盒子</b>：還不知道為什麼某個提示有效。</li>
+        <li><b>一直換提示</b>，直到結果漂亮才報告。</li></ul></div>
+      <div class="card"><h3>作者的建議</h3>
+        <ul><li>公開所有模擬程式碼。</li>
+        <li>用多種提示版本（翻譯、改寫）檢查結果穩不穩。</li>
+        <li>最終關心的是真人，結果仍要用真人資料確認。</li></ul></div>
+    </div>
+    <ul><li>適合拿來做什麼：低成本試跑實驗、在沒有資料的新情境中探索、產生假說。</li></ul>
+  </div>
+  <div class="src">出處：<a data-wiki="concepts/ai-simulation-validity">AI 模擬的效度</a>、<a data-wiki="concepts/homo-silicus">矽基人</a></div>
+</section>
+
+<!-- 13 -->
+<section class="slide dense">
+  <div class="head"><div class="kicker">把研究變成設計</div><h2>北大小鎮設計藍圖</h2></div>
+  <div class="body tight">
+    <p class="note">本頁全部是 wiki 的設計推論，還沒有實驗驗證。</p>
+    <div class="cols">
+      <div class="card"><h3><span class="inf">〔推論〕</span>借貸帳本</h3>由程式記錄誰借誰、多少、還了沒，代理人查帳本而不是靠會出錯的記憶。</div>
+      <div class="card"><h3><span class="inf">〔推論〕</span>公告欄</h3>定期公布全鎮彙整結果（借多少平均拿回多少），只放彙整、不放個人紀錄，比較有公告和沒公告。</div>
+      <div class="card"><h3><span class="inf">〔推論〕</span>個性要有理論依據</h3>明確指定自利、公平、效率等類型，用 Berg 的真人數據調整比例；也寫進自利底線，例如「生活費很緊，借出去的錢一定要拿回來」。</div>
+      <div class="card"><h3><span class="inf">〔推論〕</span>先跑基準版</h3>沒有特別設定時的合作比例如果遠高於真人數據，就代表 AI 太乖，需要調整。</div>
+    </div>
+  </div>
+  <div class="src">出處：<a data-wiki="town/auditable-transaction-log">可查核的交易紀錄</a>、<a data-wiki="town/social-history-shapes-trust">社會歷史影響信任</a>、<a data-wiki="town/theory-grounded-agent-types">用理論類型設計代理人</a>、<a data-wiki="town/instruction-tuning-makes-agents-too-cooperative">指令微調讓代理人過度合作</a></div>
+</section>
+
+<!-- 14 -->
+<section class="slide">
+  <div class="head"><div class="kicker">結語</div><h2>三句話帶走</h2></div>
+  <div class="body">
+    <ul>
+      <li><b>真人比理論更願意信任</b>：匿名、只交易一次，多數人還是會先給。</li>
+      <li><b>AI 可以像人，但看模型和設定</b>：GPT-4 的信任最像人；沒給設定的 AI 在分錢遊戲和人差很多，給理論個性再校準後明顯變好。</li>
+      <li><b>AI 模擬是假說，不是結論</b>：結果仍要用真人資料確認。</li>
+      <li><span class="inf">〔推論〕</span>所以北大小鎮的定位：用 AI 低成本試跑「信任與合作」的設計，再拿真人數據對照。</li>
+    </ul>
+    <div class="life"><b>想查證？</b>每個研究主張都能在 wiki 找到原始論文頁碼：<a data-wiki="index">wiki 首頁</a>｜<a data-wiki="glossary">術語表</a>｜<a data-wiki="syntheses/contradictions">矛盾總表</a></div>
+  </div>
+  <div class="src">出處：<a data-wiki="concepts/trust">信任</a>、<a data-wiki="concepts/behavioral-alignment">行為一致性</a>、<a data-wiki="concepts/theory-grounded-personas">理論導向的人物設定</a>、<a data-wiki="concepts/ai-simulation-validity">AI 模擬的效度</a>、<a data-wiki="concepts/homo-silicus">矽基人</a></div>
+</section>
+
+</div>
+<div class="nav"><button id="prev" aria-label="上一頁">←</button><button id="next" aria-label="下一頁">→</button></div>
+<script>
+(function(){
+  var onPages = /github\.io$/.test(location.hostname);
+  document.querySelectorAll('a[data-wiki]').forEach(function(a){
+    a.href = '../wiki/' + a.getAttribute('data-wiki') + (onPages ? '.html' : '.md');
+    a.target = '_blank'; a.rel = 'noopener';
+  });
+  var s = document.querySelectorAll('.slide'), n = s.length, i = 0;
+  s.forEach(function(el,k){ var d=document.createElement('div'); d.className='num'; d.textContent=(k+1)+' / '+n; el.appendChild(d); });
+  function show(k){ i=Math.max(0,Math.min(n-1,k)); s.forEach(function(el,j){el.classList.toggle('on',j===i)}); history.replaceState(null,'','#'+(i+1)); }
+  document.addEventListener('keydown',function(e){
+    if(['ArrowRight','PageDown',' '].indexOf(e.key)>=0){e.preventDefault();show(i+1)}
+    else if(['ArrowLeft','PageUp'].indexOf(e.key)>=0){e.preventDefault();show(i-1)}
+    else if(e.key==='Home'){show(0)} else if(e.key==='End'){show(n-1)}
+  });
+  document.getElementById('next').onclick=function(){show(i+1)};
+  document.getElementById('prev').onclick=function(){show(i-1)};
+  var h=parseInt(location.hash.slice(1),10); show(isNaN(h)?0:h-1);
+})();
+</script>
+</body>
+</html>
